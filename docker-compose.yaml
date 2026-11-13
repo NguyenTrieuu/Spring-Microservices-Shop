@@ -17,3 +17,14 @@ services:
       MYSQL_DATABASE: order_service
     volumes:
       - ./data/mysql-order:/var/lib/mysql   # dữ liệu lưu ở thư mục data/ (đã nằm trong .gitignore)
+
+  mysql-inventory:
+      image: mysql:8.0
+      container_name: mysql-inventory
+      ports:
+        - "3308:3306"        # cổng 3308 trên máy bạn (3307 đã dùng cho mysql-order)
+      environment:
+        MYSQL_ROOT_PASSWORD: mysql
+        MYSQL_DATABASE: inventory_service
+      volumes:
+        - ./data/mysql-inventory:/var/lib/mysql
