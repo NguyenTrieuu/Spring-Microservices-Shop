@@ -28,3 +28,11 @@ services:
         MYSQL_DATABASE: inventory_service
       volumes:
         - ./data/mysql-inventory:/var/lib/mysql
+
+  kafka:
+    image: apache/kafka:3.9.0
+    container_name: kafka
+    ports:
+      - "9092:9092"        # cổng để các service Spring kết nối vào Kafka
+    environment:
+      KAFKA_HEAP_OPTS: "-Xmx512M -Xms512M"   # giới hạn RAM cho Kafka
