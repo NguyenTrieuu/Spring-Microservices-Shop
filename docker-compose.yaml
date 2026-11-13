@@ -36,3 +36,19 @@ services:
       - "9092:9092"        # cổng để các service Spring kết nối vào Kafka
     environment:
       KAFKA_HEAP_OPTS: "-Xmx512M -Xms512M"   # giới hạn RAM cho Kafka
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    container_name: keycloak
+    command: start-dev           # chế độ chạy để học và phát triển
+    ports:
+      - "8180:8080"              # mở Keycloak ở http://localhost:8180
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      JAVA_OPTS_KC_HEAP: "-Xms256m -Xmx512m"   # giới hạn RAM
+    volumes:
+      - keycloak_data:/opt/keycloak/data       # lưu dữ liệu để tắt bật không mất
+
+volumes:
+ keycloak_data:
