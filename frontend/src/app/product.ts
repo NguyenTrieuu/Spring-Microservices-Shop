@@ -5,3 +5,8 @@ export interface Product {
   description: string;
   price: number;
 }
+export interface ProductRequest{
+  name: String;
+  description: string;
+  price: number;
+}

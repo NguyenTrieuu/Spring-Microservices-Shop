@@ -15,12 +15,37 @@
   </header>
 
   <main class="mx-auto max-w-5xl px-4 py-6">
-    <h2 class="mb-4 text-xl font-semibold text-gray-800">Danh sách sản phẩm</h2>
 
-    <!-- [MỚI] @if: chỉ hiện khối này khi có lỗi -->
+    <!-- Thông báo thành công / lỗi -->
+    @if (message()) {
+      <p class="mb-4 rounded bg-green-100 p-3 text-green-700">{{ message() }}</p>
+    }
     @if (error()) {
       <p class="mb-4 rounded bg-red-100 p-3 text-red-700">{{ error() }}</p>
     }
+
+    <!-- Form thêm sản phẩm.
+         [MỚI] #name, #description...: đặt tên cho ô nhập để truyền vào hàm addProduct(...) khi bấm nút -->
+    <section class="mb-8 rounded-lg bg-white p-4 shadow">
+      <h2 class="mb-3 text-xl font-semibold text-gray-800">Thêm sản phẩm</h2>
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <input #name type="text" placeholder="Tên sản phẩm"
+               class="rounded border border-gray-300 px-3 py-2" />
+        <input #description type="text" placeholder="Mô tả"
+               class="rounded border border-gray-300 px-3 py-2" />
+        <input #price type="number" placeholder="Giá"
+               class="rounded border border-gray-300 px-3 py-2" />
+        <input #quantity type="number" value="10" placeholder="Số lượng trong kho"
+               class="rounded border border-gray-300 px-3 py-2" />
+      </div>
+      <button
+        (click)="addProduct(name, description, price, quantity)"
+        class="mt-3 rounded bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700">
+        Thêm sản phẩm
+      </button>
+    </section>
+
+    <h2 class="mb-4 text-xl font-semibold text-gray-800">Danh sách sản phẩm</h2>
 
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       @for (product of products(); track product.id) {
@@ -28,6 +53,11 @@
           <h3 class="text-lg font-semibold text-gray-900">{{ product.name }}</h3>
           <p class="mt-1 text-sm text-gray-600">{{ product.description }}</p>
           <p class="mt-3 text-lg font-bold text-blue-600">Giá: {{ product.price }}</p>
+          <button
+            (click)="order(product)"
+            class="mt-3 w-full rounded bg-green-600 py-2 font-semibold text-white hover:bg-green-700">
+            Đặt hàng
+          </button>
         </div>
       } @empty {
         <p class="text-gray-500">Chưa có sản phẩm nào.</p>
