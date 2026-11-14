@@ -75,8 +75,14 @@ export class App {
     description.value = '';
     price.value = '';
   }
-  order(product: Product) {
+  order(product: Product, qty: HTMLInputElement) {
     this.clearMessages();
+
+    const quantity = Number(qty.value);
+    if(quantity<=0){
+      this.error.set('Số lượng phải lớn hơn 0');
+      return;
+    }
     this.orderService.placeOrder(product.id, product.price, 1).subscribe({
       next: () => this.message.set('Đặt hàng thành công: ' + product.name),
       error: () => this.error.set('Đặt hàng thất bại (có thể sản phẩm đã hết hàng): ' + product.name),

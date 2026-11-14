@@ -62,6 +62,6 @@ public class OrderService {
         log.info("Đã lưu đơn hàng {} (sản phẩm {}, số lượng {})",
                 order.getOrderId(), order.getProductId(), order.getQuantity());
 
-        kafkaTemplate.send("order-placed", order.getOrderId());
+        kafkaTemplate.send("order-placed", order.getOrderId()+ ";" + order.getProductId()+ ";" +order.getQuantity());
     }
 }
