@@ -76,6 +76,13 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - ./monitoring/grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+
+  mailpit:
+      image: axllent/mailpit
+      container_name: mailpit
+      ports:
+        - "8025:8025"     # giao diện web xem thư
+        - "1025:1025"     # cổng nhận thư (SMTP)
 volumes:
   keycloak_data:
   grafana_data:
