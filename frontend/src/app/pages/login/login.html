@@ -1,0 +1,26 @@
+<div class="login-page">
+  <div class="login-card">
+    <a class="brand" routerLink="/"><span class="brand-mark">S</span><span>Spring Shop</span></a>
+
+    <h1>Đăng nhập</h1>
+    <p class="sub">Dùng chung cho quản trị viên và người dùng</p>
+
+    @if (error()) {
+      <p class="error">{{ error() }}</p>
+    }
+
+    <form (submit)="onLogin($event, username, password)">
+      <label for="username">Tên đăng nhập</label>
+      <input #username id="username" type="text" autocomplete="username" />
+
+      <label for="password">Mật khẩu</label>
+      <input #password id="password" type="password" autocomplete="current-password" />
+
+      <button type="submit" [disabled]="loading()">
+        {{ loading() ? 'Đang đăng nhập...' : 'Đăng nhập' }}
+      </button>
+    </form>
+
+    <a class="back" routerLink="/">← Về trang chủ</a>
+  </div>
+</div>

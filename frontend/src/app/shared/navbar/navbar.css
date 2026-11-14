@@ -1,0 +1,12 @@
+.bar { background: #2563eb; color: #fff; box-shadow: 0 1px 3px #0003; }
+.bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  max-width: 64rem; margin: 0 auto; padding: 16px; }
+.brand { font-size: 1.25rem; font-weight: 700; color: #fff; text-decoration: none; }
+.links { display: flex; gap: 18px; }
+.links a { color: #dbeafe; text-decoration: none; font-size: 14px; padding-bottom: 2px; }
+.links a:hover, .links a.active { color: #fff; border-bottom: 2px solid #fff; }
+.user { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.user button { border: 0; border-radius: 4px; background: #fff; color: #2563eb;
+  padding: 4px 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.user button:hover { background: #f3f4f6; }
+@media (max-width: 760px) { .bar-inner { flex-wrap: wrap; } }

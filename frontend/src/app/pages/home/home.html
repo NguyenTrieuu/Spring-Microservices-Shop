@@ -1,0 +1,61 @@
+<header class="topbar">
+  <nav class="wrap nav" aria-label="Điều hướng chính">
+    <a class="brand" routerLink="/"><span class="brand-mark">S</span><span>Spring Shop</span></a>
+
+    <div class="nav-links">
+      <a routerLink="/">Trang chủ</a>
+      <a routerLink="/products">Sản phẩm</a>
+      <a routerLink="/orders">Đơn hàng</a>
+      <a href="#ve-chung-toi">Về chúng tôi</a>
+    </div>
+
+    @if (auth.isLoggedIn()) {
+      <div class="account">
+        <span class="hello">Xin chào, {{ auth.username() }}</span>
+        <button class="login" (click)="auth.logout()">Đăng xuất</button>
+      </div>
+    } @else {
+      <a class="login" routerLink="/login">Đăng nhập</a>
+    }
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Mua sắm dễ dàng, quản lý minh bạch</span>
+        <h1>Sản phẩm tốt.<br />Trải nghiệm gọn.</h1>
+        <p class="hero-copy">Khám phá các sản phẩm nổi bật với thông tin tồn kho rõ ràng và quy trình đặt hàng nhanh chóng.</p>
+        <div class="hero-actions">
+          <a class="primary" routerLink="/products">Khám phá sản phẩm <span aria-hidden="true">&nbsp;→</span></a>
+        </div>
+      </div>
+
+      <div class="showcase" aria-label="Sản phẩm nổi bật">
+        <div class="showcase-bg"></div>
+        <article class="showcase-card">
+          <div class="showcase-head"><span>SẢN PHẨM NỔI BẬT</span><span class="stock-tag">Còn hàng</span></div>
+          <div class="device"><div class="phone"></div></div>
+          <div class="product-meta">
+            <div><strong>iPhone 15</strong><small>Điện thoại · Apple</small></div>
+            <span class="price">19.990.000₫</span>
+          </div>
+        </article>
+        <div class="float-chip"><b>Kho hàng</b>Thông tin được cập nhật</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefits" id="ve-chung-toi">
+    <div class="wrap benefit-grid">
+      <div class="benefit"><span class="benefit-icon">✓</span>Thông tin sản phẩm rõ ràng</div>
+      <div class="benefit"><span class="benefit-icon">▦</span>Theo dõi tồn kho</div>
+      <div class="benefit"><span class="benefit-icon">↗</span>Đặt hàng thuận tiện</div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner"><span>© 2026 Spring Shop</span><span>Hệ thống quản lý hàng hóa</span></div>
+</footer>

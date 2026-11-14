@@ -1,0 +1,16 @@
+<header class="bar">
+  <div class="bar-inner">
+    <a class="brand" routerLink="/">Hệ thống quản lý hàng hóa</a>
+
+    <nav class="links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Trang chủ</a>
+      <a routerLink="/products" routerLinkActive="active">Sản phẩm</a>
+      <a routerLink="/orders" routerLinkActive="active">Đơn hàng</a>
+    </nav>
+
+    <div class="user">
+      <span>Xin chào, {{ auth.username() }} ({{ auth.isAdmin() ? 'Quản trị' : 'Người dùng' }})</span>
+      <button (click)="auth.logout()">Đăng xuất</button>
+    </div>
+  </div>
+</header>

@@ -1,5 +1,6 @@
 package com.nhom11.orderservice.service;
 
+import com.nhom11.orderservice.dto.OrderResponse;
 import com.nhom11.orderservice.dto.OrderRequest;
 import com.nhom11.orderservice.model.Order;
 import com.nhom11.orderservice.repository.OrderRepository;
@@ -14,6 +15,9 @@ import org.springframework.web.client.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.UUID;
 @Service
 public class OrderService {
@@ -28,6 +32,22 @@ public class OrderService {
         this.restClient = RestClient.create(inventoryUrl);
         this.kafkaTemplate = kafkaTemplate;
         this.circuitBreakerFactory = circuitBreakerFactory;
+    }
+
+    public List<OrderResponse> getOrders(String username) {
+        List<Order> orders;
+        if (username == null || username.isBlank()) {
+            orders = orderRepository.findAllByOrderByCreatedAtDesc();
+        } else {
+            orders = orderRepository.findByUsernameOrderByCreatedAtDesc(username);
+        }
+
+        List<OrderResponse> result = new ArrayList<>();
+        for (Order o : orders) {
+            result.add(new OrderResponse(o.getOrderId(), o.getProductId(), o.getQuantity(),
+                    o.getPrice(), o.getUsername(), o.getCreatedAt()));
+        }
+        return result;
     }
 
     public void placeOrder(OrderRequest request){
@@ -56,12 +76,16 @@ public class OrderService {
         order.setProductId(request.getProductId());
         order.setPrice((request.getPrice()));
         order.setQuantity(request.getQuantity());
+        order.setUsername(request.getUsername());
+        order.setCreatedAt(LocalDateTime.now());
 
         orderRepository.save(order);
 
         log.info("Đã lưu đơn hàng {} (sản phẩm {}, số lượng {})",
                 order.getOrderId(), order.getProductId(), order.getQuantity());
 
-        kafkaTemplate.send("order-placed", order.getOrderId()+ ";" + order.getProductId()+ ";" +order.getQuantity());
+        kafkaTemplate.send("order-placed",
+                order.getOrderId() + ";" + order.getProductId() + ";" + order.getQuantity()
+                        + ";" + request.isSendEmail());
     }
 }

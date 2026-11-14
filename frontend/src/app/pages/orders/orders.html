@@ -1,0 +1,66 @@
+<div class="page">
+  <app-navbar />
+
+  <main class="mx-auto max-w-5xl px-4 py-6">
+    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <h2 class="text-xl font-semibold text-gray-800">
+        {{ auth.isAdmin() ? 'Tất cả đơn hàng' : 'Đơn hàng của tôi' }} ({{ filtered().length }})
+      </h2>
+      <div class="flex gap-2">
+        <input #searchBox type="text" placeholder="Tìm theo mã đơn"
+               (input)="keyword.set(searchBox.value)"
+               class="rounded border border-gray-300 bg-white px-3 py-2" />
+        <button (click)="loadOrders()"
+                class="rounded bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700">
+          Làm mới
+        </button>
+      </div>
+    </div>
+
+    @if (error()) {
+      <p class="mb-4 rounded bg-red-100 p-3 text-red-700">{{ error() }}</p>
+    }
+
+    <div class="overflow-x-auto rounded-lg bg-white shadow">
+      <table class="w-full text-left">
+        <thead>
+        <tr class="border-b border-gray-200 text-gray-800">
+          <th class="px-4 py-4 font-semibold">Mã đơn</th>
+          <th class="px-4 py-4 font-semibold">Sản phẩm</th>
+          <th class="px-4 py-4 text-center font-semibold">Số lượng</th>
+          <th class="px-4 py-4 font-semibold">Thành tiền</th>
+          @if (auth.isAdmin()) {
+            <th class="px-4 py-4 font-semibold">Người đặt</th>
+          }
+          <th class="px-4 py-4 font-semibold">Thời gian</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (order of filtered(); track order.orderId) {
+            <tr class="odd:bg-sky-100 even:bg-white">
+              <td class="px-4 py-5">
+                <!-- Hiện 8 ký tự đầu, rê chuột vào để xem đủ mã -->
+                <span class="order-id" [title]="order.orderId">{{ order.orderId.substring(0, 8) }}…</span>
+              </td>
+              <td class="px-4 py-5 font-semibold text-sky-600">{{ nameOf(order.productId) }}</td>
+              <td class="px-4 py-5 text-center">{{ order.quantity }}</td>
+              <td class="px-4 py-5">{{ order.price * order.quantity }}</td>
+              @if (auth.isAdmin()) {
+                <td class="px-4 py-5">{{ order.username || '—' }}</td>
+              }
+              <td class="px-4 py-5 text-gray-800">
+                {{ (order.createdAt | date: 'dd/MM/yyyy HH:mm') || '—' }}
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td [attr.colspan]="auth.isAdmin() ? 6 : 5" class="px-4 py-6 text-center text-gray-500">
+                Chưa có đơn hàng nào.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>

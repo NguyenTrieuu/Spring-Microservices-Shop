@@ -1,0 +1,5 @@
+.page { min-height: 100vh; background: #f3f4f6; }
+.stock-none { color: #9ca3af; }
+.stock-out { color: #dc2626; font-weight: 600; }
+.stock-low { color: #d97706; font-weight: 600; }
+tbody tr:hover { filter: brightness(0.97); }
