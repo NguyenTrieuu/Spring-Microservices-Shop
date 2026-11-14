@@ -3,11 +3,15 @@ package com.nhom11.inventoryservice.controller;
 import com.nhom11.inventoryservice.dto.InventoryRequest;
 import com.nhom11.inventoryservice.model.Inventory;
 import com.nhom11.inventoryservice.service.InventoryService;
+import com.nhom11.inventoryservice.dto.InventoryResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.nhom11.inventoryservice.dto.InventoryRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/inventory")
@@ -30,5 +34,15 @@ public class InventoryController {
         inventoryService.setStock(request.getProductId(), request.getQuantity());
     }
 
+    @GetMapping("/stock")
+    public List<InventoryResponse> getAllStock() {
+        return inventoryService.getAllStock();
+    }
+
+    @DeleteMapping("/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStock(@PathVariable("productId") String productId) {
+        inventoryService.deleteStock(productId);
+    }
 
 }

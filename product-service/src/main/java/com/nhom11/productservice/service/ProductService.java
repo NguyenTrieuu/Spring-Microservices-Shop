@@ -28,6 +28,9 @@ public class ProductService {
 
         return new ProductResponse(product.getId(), product.getName(), product.getDescription(), product.getPrice());
     }
+    public void deleteProduct(String id) {
+        productRepository.deleteById(id);
+    }
 
     public List<ProductResponse> getAllProducts(){
         List<ProductResponse> result = new ArrayList<>();
