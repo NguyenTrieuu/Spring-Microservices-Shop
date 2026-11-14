@@ -14,7 +14,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
                 .csrf(csrf -> csrf.disable())                              // tắt CSRF (không cần cho API)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())  // mọi request đều phải đăng nhập
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/actuator/**").permitAll().anyRequest().authenticated())  // mọi request đều phải đăng nhập
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())); // kiểm tra bằng token JWT
         return http.build();
     }

@@ -3,6 +3,7 @@ package com.nhom11.orderservice.service;
 import com.nhom11.orderservice.dto.OrderRequest;
 import com.nhom11.orderservice.model.Order;
 import com.nhom11.orderservice.repository.OrderRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 @Service
@@ -18,6 +21,7 @@ public class OrderService {
     private final RestClient restClient;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final CircuitBreakerFactory<?, ?> circuitBreakerFactory;
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     public OrderService(OrderRepository orderRepository, KafkaTemplate<String, String> kafkaTemplate,CircuitBreakerFactory<?,?> circuitBreakerFactory, @Value("${inventory.url}") String inventoryUrl) {
         this.orderRepository = orderRepository;
@@ -54,6 +58,9 @@ public class OrderService {
         order.setQuantity(request.getQuantity());
 
         orderRepository.save(order);
+
+        log.info("Đã lưu đơn hàng {} (sản phẩm {}, số lượng {})",
+                order.getOrderId(), order.getProductId(), order.getQuantity());
 
         kafkaTemplate.send("order-placed", order.getOrderId());
     }
