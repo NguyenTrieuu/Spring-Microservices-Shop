@@ -36,3 +36,5 @@ dist/
 # Dữ liệu Docker và biến môi trường
 data/
 .env
+
+backup/
